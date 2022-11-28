@@ -39,3 +39,7 @@ luac.out
 *.x86_64
 *.hex
 
+# Additional files and directories
+/.luarc.json
+example_files
+*.html
