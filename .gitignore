@@ -41,5 +41,6 @@ luac.out
 
 # Additional files and directories
 /.luarc.json
-example_files
+*_files
 *.html
+*.qmd
