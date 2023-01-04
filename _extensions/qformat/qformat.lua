@@ -40,7 +40,7 @@ return {
             end
         end
 
-        -- Obtain the first argument, which might
+        -- Obtain the first argument
         local fmt_type = args[1]
         
         -- If there is nothing there then return nil
