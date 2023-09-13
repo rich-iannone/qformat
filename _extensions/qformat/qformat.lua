@@ -47,17 +47,45 @@ local function parse_arg(to_check, key)
     end
 end
 
+local function parse_boolean_kwarg(kwargs, key)
+
+    local kwarg_val = parse_arg(kwargs, key)
+
+    if kwarg_val == nil then
+        return nil
+    end
+
+    kwarg_val = string.lower(kwarg_val)
+
+    if in_table(kwarg_val, {"yes", "true"}) then
+        return true
+    else
+        return false
+    end
+end
+
 -- Function for rounding a number
 local function round_num(num)
     return math.floor(num + 0.5)
 end
+
+local function format_number_with_separators(number, sep)
+
+    local formatted_number = tostring(number)
+    local dp = (string.find(formatted_number, "%.") or #formatted_number + 1) - 1
+  
+    for i = dp - 3, 1, -3 do
+        formatted_number = formatted_number:sub(1, i) .. sep .. formatted_number:sub(i + 1)
+    end
+    
+    return formatted_number
+  end
 
 return {
     ["qformat"] = function(args, kwargs)
 
         local fmt_type = "auto"
         local formatted = ""
-        local decimals = tonumber("2")
 
         -- Count the number of args
         n_args = #args
@@ -88,6 +116,25 @@ return {
 
         -- Change `value` to a number (from a string)
         local value = tonumber(value)
+        local is_negative = value < 0
+
+        if is_negative and type(value) == "number" then
+            value = math.abs(value)
+        end
+
+        -- Parse kwargs for `use_seps`
+        local use_seps = parse_boolean_kwarg(kwargs, "use_seps")
+        if use_seps == nil then
+            use_seps = true
+        end
+
+        -- Parse kwargs for `decimals`
+        local decimals = parse_arg(kwargs, "decimals")
+        if decimals == nil then
+            decimals = 2
+        else
+            decimals = tonumber(decimals)
+        end
 
         -- Determine if a format string is supplied
         local fmt_str = parse_arg(kwargs, "fmt")
@@ -114,10 +161,26 @@ return {
             -- Format the value and cast to a string
             formatted = tostring(string.format(fmt_str, value))
 
+            -- Ensure that separators are included
+            if use_seps then
+                formatted = format_number_with_separators(formatted, ",")
+            end
+
+            if is_negative then
+                if quarto.doc.is_format("html:js") then
+                    formatted = pandoc.RawInline("html", "\u{2212}" .. formatted)
+                end
+            end
+
         elseif fmt_type == "int" then
 
             -- Round and truncate the value, then, cast to a string
             formatted = tostring(math.floor(round_num(value)))
+
+            -- Ensure that separators are included
+            if use_seps then
+                formatted = format_number_with_separators(formatted, ",")
+            end
 
         elseif fmt_type == "sci" then
 
