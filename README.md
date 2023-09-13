@@ -7,7 +7,7 @@
 
 </div>
 
-The **qformat** Quarto shortcode extension allows you to easily format values to HTML- and LaTeX-based output formats.
+The **qformat** [Quarto](https://quarto.org) shortcode extension allows you to easily format values to HTML- and LaTeX-based output formats.
 
 ## How to Use
 
