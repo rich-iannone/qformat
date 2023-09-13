@@ -2,11 +2,9 @@
 
 <img src="docs/images/qformat.svg" height="350px"/>
 
-<!-- badges: start -->
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" /></a>
 <a href="https://www.contributor-covenant.org/version/2/0/code_of_conduct/"><img src="https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg" alt="Contributor Covenant" /></a>
-<!-- badges: end -->
-<br />
+
 </div>
 
 The **qformat** Quarto shortcode extension allows you to easily format values to HTML- and LaTeX-based output formats.
