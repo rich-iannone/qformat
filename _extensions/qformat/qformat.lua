@@ -228,6 +228,11 @@ return {
                 formatted = gsub_lpeg(formatted, "e+00", "")
             end
 
+            -- Replace the decimal mark if required
+            if dec_mark ~= "." then
+                formatted = gsub_lpeg(formatted, ".", dec_mark)
+            end
+
             -- Split the `formatted` string across the 'e' to get `num_val` and `exp_val` parts;
             -- This is eventually generated better formatting in scientific notation across different output
             splits = strsplit(formatted, "e")
