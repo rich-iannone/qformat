@@ -84,8 +84,6 @@ return {
             if in_table(first_arg, {"num", "int", "sci", "auto"}) then
                 fmt_type = tostring(first_arg)
             end
-
-            print("format type is: " .. fmt_type)
         end
 
         -- Change `value` to a number (from a string)
