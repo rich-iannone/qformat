@@ -136,6 +136,18 @@ return {
             decimals = tonumber(decimals)
         end
 
+        -- Parse kwargs for `sep_mark`
+        local sep_mark = parse_arg(kwargs, "sep_mark")
+        if sep_mark == nil then
+            sep_mark = ","
+        end
+
+        -- Parse kwargs for `dec_mark`
+        local dec_mark = parse_arg(kwargs, "dec_mark")
+        if dec_mark == nil then
+            dec_mark = "."
+        end
+
         -- Determine if a format string is supplied
         local fmt_str = parse_arg(kwargs, "fmt")
 
@@ -149,23 +161,30 @@ return {
 
         elseif fmt_type == "num" then
 
-            dec_arg = parse_arg(kwargs, "dec")
-
-            if dec_arg ~= nil then
-                decimals = tonumber(parse_arg(kwargs, "dec"))
-            end
-
             -- Generate a formatting string (using 'f' for floating point format)
             fmt_str = "%." .. decimals .. "f"
             
             -- Format the value and cast to a string
             formatted = tostring(string.format(fmt_str, value))
 
-            -- Ensure that separators are included
+            -- Ensure that digit-grouping separators are included as placeholders
             if use_seps then
-                formatted = format_number_with_separators(formatted, ",")
+                formatted = format_number_with_separators(formatted, "|")
             end
 
+            -- Replace the decimal mark if required
+            if dec_mark ~= "." then
+                formatted = gsub_lpeg(formatted, ".", dec_mark)
+            end
+
+            -- Replace digit-grouping separator placeholders with `sep_mark`
+            if (sep_mark == "space") then
+                formatted = gsub_lpeg(formatted, "|", " ")
+            else
+                formatted = gsub_lpeg(formatted, "|", sep_mark)
+            end
+
+            -- Use the negative sign appropriate to the output context
             if is_negative then
                 if quarto.doc.is_format("html:js") then
                     formatted = pandoc.RawInline("html", "\u{2212}" .. formatted)
@@ -177,18 +196,26 @@ return {
             -- Round and truncate the value, then, cast to a string
             formatted = tostring(math.floor(round_num(value)))
 
-            -- Ensure that separators are included
+            -- Ensure that digit-grouping separators are included as placeholders
             if use_seps then
-                formatted = format_number_with_separators(formatted, ",")
+                formatted = format_number_with_separators(formatted, "|")
+            end
+
+            -- Replace digit-grouping separator placeholders with `sep_mark`
+            if (sep_mark == "space") then
+                formatted = gsub_lpeg(formatted, "|", " ")
+            else
+                formatted = gsub_lpeg(formatted, "|", sep_mark)
+            end
+
+            -- Use the negative sign appropriate to the output context
+            if is_negative then
+                if quarto.doc.is_format("html:js") then
+                    formatted = pandoc.RawInline("html", "\u{2212}" .. formatted)
+                end
             end
 
         elseif fmt_type == "sci" then
-
-            dec_arg = parse_arg(kwargs, "dec")
-
-            if dec_arg ~= nil then
-                decimals = tonumber(parse_arg(kwargs, "dec"))
-            end
 
             -- Generate a formatting string (using 'e' for exponential format)
             fmt_str = "%." .. decimals .. "e"
