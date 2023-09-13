@@ -44,3 +44,4 @@ luac.out
 *_files
 *.html
 *.qmd
+.vscode/settings.json
