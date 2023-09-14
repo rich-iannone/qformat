@@ -62,6 +62,8 @@ You can transform numbers to scientific notation by using the form `{{< qformat 
 
 `{{< qformat sci 623846 dec_mark="," >}}` -> 6,24 × 10<sup style="font-size: 65%;">5</sup>
 
+Scientific notation typically requires some markup to adhere to the standard; **qformat** detects the render output type (either HTML or LaTeX) and provides the correct formatting. Also, any values between 1 and 10 won't show the exponential part since we'd want to avoid a redundant display of × 10<sup style="font-size: 65%;">0</sup>.
+
 ## Installation
 
 ```sh
