@@ -29,9 +29,13 @@ Numeric formatting takes the form `{{< qformat num <value> ... >}}`. By default,
 Here are some examples:
 
 `{{< qformat num 369234.263 >}}` -> 369,234.26
+
 `{{< qformat num 369234.263 decimals=4 >}}` -> 369,234.2630
+
 `{{< qformat num 369234.263 decimals=0 >}}` -> 369,234
+
 `{{< qformat num 369234.263 use_seps=false >}}` -> 369234.26
+
 `{{< qformat num 369234.263 dec_mark=',' sep_mark='.' >}}` -> 369.234,26
 
 ### Integer formatting (`int`)
@@ -39,7 +43,9 @@ Here are some examples:
 Integer formatting of the form `{{< qformat num <value> ... >}}` is similar to numeric formatting, though the `decimals` and `dec_mark` arguments are disregarded. The value will be rounded before undergoing formatting. Here are a few examples:
 
 `{{< qformat int 733744.653 >}}` -> 733,745
+
 `{{< qformat int 733744.653 use_seps=no >}}` -> 733745
+
 `{{< qformat int 733744.653 sep_mark=space >}}` -> 733 745
 
 Some notes are in order. You can use either `"true"`/`"yes"` or `"false"`/`"no"` for those arguments looking for a boolean value. The `sep_mark` argument can take the special keyword `"space"` to mean that you want a single space character for the digit-grouping separator.
@@ -49,8 +55,11 @@ Some notes are in order. You can use either `"true"`/`"yes"` or `"false"`/`"no"`
 You can transform numbers to scientific notation by using the form `{{< qformat sci <value> ... >}}`. This type of formatting allows the use of the `decimals` and `dec_mark` arguments (any other named arguments, if provided, will be disregarded). Here are four examples:
 
 `{{< qformat sci 13463733744.653 >}}` -> 1.35 × 10<sup style="font-size: 65%;">10</sup>
+
 `{{< qformat sci 0.00000000000392752 >}}` -> 3.93 × 10<sup style="font-size: 65%;">-12</sup>
+
 `{{< qformat sci 6.343 >}}` -> 6.34
+
 `{{< qformat sci 623846 dec_mark="," >}}` -> 6,24 × 10<sup style="font-size: 65%;">5</sup>
 
 ## Installation
