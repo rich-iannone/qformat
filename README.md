@@ -66,6 +66,8 @@ Scientific notation typically requires some markup to adhere to the standard; **
 
 ## Installation
 
+Enter the following in the terminal when located in the working directory of a Quarto project:
+
 ```sh
 quarto add rich-iannone/qformat
 ```
