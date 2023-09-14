@@ -39,7 +39,7 @@ end
 
 -- Function for arg-parsing; works with `args` or `kwargs`
 local function parse_arg(to_check, key)
-    value = pandoc.utils.stringify(to_check[key])
+    local value = pandoc.utils.stringify(to_check[key])
     if not is_empty(value) then
         return value
     else
@@ -70,16 +70,13 @@ local function round_num(num)
 end
 
 local function format_number_with_separators(number, sep)
-
     local formatted_number = tostring(number)
     local dp = (string.find(formatted_number, "%.") or #formatted_number + 1) - 1
-  
     for i = dp - 3, 1, -3 do
         formatted_number = formatted_number:sub(1, i) .. sep .. formatted_number:sub(i + 1)
     end
-    
     return formatted_number
-  end
+end
 
 return {
     ["qformat"] = function(args, kwargs)
@@ -88,7 +85,7 @@ return {
         local formatted = ""
 
         -- Count the number of args
-        n_args = #args
+        local n_args = #args
 
         -- If the number of args is greater than two then that's an error
         if n_args > 2 then
@@ -105,10 +102,7 @@ return {
 
         -- If there are two args then set the `fmt_type`
         if n_args == 2 then
-            first_arg = parse_arg(args, 1)
-
-            is_valid_type = in_table(first_arg, {"num", "int", "sci", "auto"})
-
+            local first_arg = parse_arg(args, 1)
             if in_table(first_arg, {"num", "int", "sci", "auto"}) then
                 fmt_type = tostring(first_arg)
             end
@@ -163,7 +157,7 @@ return {
 
             -- Generate a formatting string (using 'f' for floating point format)
             fmt_str = "%." .. decimals .. "f"
-            
+
             -- Format the value and cast to a string
             formatted = tostring(string.format(fmt_str, value))
 
@@ -222,7 +216,7 @@ return {
 
             -- Format the value and cast to a string
             formatted = tostring(string.format(fmt_str, value))
-            
+
             -- If the string 'e+00' appears in `formatted`, remove that portion of the formatted value
             if grepl(formatted, "e%+00$") then
                 formatted = gsub_lpeg(formatted, "e+00", "")
@@ -235,15 +229,15 @@ return {
 
             -- Split the `formatted` string across the 'e' to get `num_val` and `exp_val` parts;
             -- This is eventually generated better formatting in scientific notation across different output
-            splits = strsplit(formatted, "e")
+            local splits = strsplit(formatted, "e")
 
             -- It may happen that we receive only a single element in `splits` (in the case where 'e+00'
             -- was present and then removed); in that case this portion of code is essentially disregarded
             -- since just having a number part will print just fine in HTML and LaTeX
             if splits[2] then
 
-                num_val = splits[1]
-                exp_val = splits[2]
+                local num_val = splits[1]
+                local exp_val = splits[2]
 
                 if quarto.doc.is_format("html:js") then
                   formatted = pandoc.RawInline("html", num_val .. " \u{00D7} " .. "10<sup style='font-size: 65%;'>" .. tonumber(exp_val) .. "</sup>")
