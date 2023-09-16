@@ -25,6 +25,7 @@ Numeric formatting takes the form `{{< qformat num <value> ... >}}`. By default,
 - `use_seps` (default: `true`) / Should digit-grouping separators be used?
 - `dec_mark` (default: `"."`) / The character(s) used to signify the decimal mark
 - `sep_mark` (default: `"."`) / The character(s) used to signify the separator mark
+- `pattern`  (default: nil) / A string-based pattern where '{x}' is the value (other chars are literals)
 
 Here are some examples:
 
@@ -37,6 +38,8 @@ Here are some examples:
 `{{< qformat num 369234.263 use_seps=false >}}` -> 369234.26
 
 `{{< qformat num 369234.263 dec_mark=',' sep_mark='.' >}}` -> 369.234,26
+
+`{{< qformat num 369234.263 pattern='value: {x}'  >}}` -> value: 369,234.26
 
 ### Integer formatting (`int`)
 
@@ -52,7 +55,7 @@ Some notes are in order. You can use either `"true"`/`"yes"` or `"false"`/`"no"`
 
 ### Scientific notation (`sci`)
 
-You can transform numbers to scientific notation by using the form `{{< qformat sci <value> ... >}}`. This type of formatting allows the use of the `decimals` and `dec_mark` arguments (any other named arguments, if provided, will be disregarded). Here are four examples:
+You can transform numbers to scientific notation by using the form `{{< qformat sci <value> ... >}}`. This type of formatting allows the use of the `decimals`, `dec_mark`, and `pattern` arguments (any other named arguments, if provided, will be disregarded). Here are four examples:
 
 `{{< qformat sci 13463733744.653 >}}` -> 1.35 × 10<sup style="font-size: 65%;">10</sup>
 
