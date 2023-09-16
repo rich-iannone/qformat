@@ -142,6 +142,9 @@ return {
             dec_mark = "."
         end
 
+        -- Parse kwargs for `pattern`
+        local pattern = parse_arg(kwargs, "pattern")
+
         -- Determine if a format string is supplied
         local fmt_str = parse_arg(kwargs, "fmt")
 
@@ -245,6 +248,12 @@ return {
                   formatted = pandoc.RawInline("tex", num_val .. " \\times 10^{ " .. tonumber(exp_val) .. "}")
                 end
             end
+        end
+
+        -- If a `pattern` value was provided then substitute the '{x}' in the
+        -- pattern with the `formatted` value with `gsub_lpeg()`
+        if pattern then
+            formatted = gsub_lpeg(pattern, "{x}", formatted)
         end
 
         return formatted
