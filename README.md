@@ -24,8 +24,8 @@ Numeric formatting takes the form `{{< qformat num <value> ... >}}`. By default,
 - `decimals` (default: `2`) / The number of decimal places to use
 - `use_seps` (default: `true`) / Should digit-grouping separators be used?
 - `dec_mark` (default: `"."`) / The character(s) used to signify the decimal mark
-- `sep_mark` (default: `"."`) / The character(s) used to signify the separator mark
-- `pattern`  (default: nil) / A string-based pattern where '{x}' is the value (other chars are literals)
+- `sep_mark` (default: `","`) / The character(s) used to signify the separator mark
+- `pattern`  (default: *nil*) / A string-based pattern where '{x}' is the value (other chars are literals)
 
 Here are some examples:
 
@@ -39,7 +39,7 @@ Here are some examples:
 
 `{{< qformat num 369234.263 dec_mark=',' sep_mark='.' >}}` -> 369.234,26
 
-`{{< qformat num 369234.263 pattern='value: {x}'  >}}` -> value: 369,234.26
+`{{< qformat num 369234.263 pattern='value: {x}' >}}` -> value: 369,234.26
 
 ### Integer formatting (`int`)
 
